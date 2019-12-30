@@ -1,0 +1,147 @@
+create database library;
+use library;
+
+// 教师表
+create table Teacher(
+	Tno varchar(10) primary key,
+	Tname varchar(20),
+	Ttele varchar(15),
+	Tsex varchar(4)
+);
+
+// 学生表
+create table Student(
+	Sno varchar(10) primary key,
+	Sname varchar(20),
+	Stele varchar(15),
+	Ssex varchar(4)
+);
+
+// 帐号密码表
+create table pwd(
+	account varchar(10) primary key,
+	pwd varchar(10),
+	id varchar(4) 
+);
+
+
+// 书架表
+create table Bookrack(
+	Brno int primary key auto_increment,
+	Tno varchar(10),
+	foreign key(Tno) references Teacher(Tno)
+);
+
+
+// 书籍表
+create table Book(
+	Bno varchar(10) primary key,
+	Bname varchar(20) not null,
+	Press varchar(20),
+	Price int,
+	jur varchar(4) not null
+);
+
+
+// 库存表
+create table Repertory(
+	Bno varchar(10) primary key,
+	Num int,
+	foreign key(Bno) references Book(Bno)
+);
+
+
+// 书籍学生关系表
+create table stubo(
+	Sno varchar(10),
+	Bno varchar(10),
+	num int,
+	primary key(Sno, Bno),
+	foreign key(Bno) references Book(Bno),
+	foreign key(Sno) references Student(Sno)
+);
+
+//  购买表
+create table Bought(
+	Sno varchar(10),
+	Bno varchar(10),
+	num int,
+	time date,
+	primary key(Sno, Bno),
+	foreign key(Bno) references Book(Bno),
+	foreign key(Sno) references Student(Sno)
+);
+
+
+// 书籍出租表
+create table Rent(
+	Sno varchar(10),
+	Bno varchar(10),
+	term int,
+	time date,
+	primary key(Sno, Bno),
+	foreign key(Bno) references Book(Bno),
+	foreign key(Sno) references Student(Sno)
+);
+
+
+// 书架出租表
+create table Rackrent(
+	Sno varchar(10),
+	Brno int,
+	term int,
+	time date,
+	primary key(Sno, Brno),
+	foreign key(Brno) references Bookrack(Brno),
+	foreign key(Sno) references Student(Sno)
+);
+
+insert into pwd values('wex', '123456', 'stu');
+insert into pwd values('David', '654321', 'tea');
+
+insert into Student values('3117004881', 'wex', '15625031560', '男');
+
+insert into Teacher values('191201', 'David', '15632455487', '男');
+insert into Teacher values('191202', 'John', '13785466987', '男');
+insert into Teacher values('191203', 'Mike', '15687544562', '男');
+insert into Teacher values('191204', 'Lily', '13256458794', '女');
+insert into Teacher values('191205', 'Sushan', '15632455487', '女');
+
+insert into Bookrack values(1, '191201');
+insert into Bookrack values(2, '191201');
+insert into Bookrack values(3, '191201');
+insert into Bookrack values(4, '191202');
+insert into Bookrack values(5, '191202');
+insert into Bookrack values(6, '191202');
+insert into Bookrack values(7, '191203');
+insert into Bookrack values(8, '191203');
+insert into Bookrack values(9, '191203');
+insert into Bookrack values(10, '191204');
+insert into Bookrack values(11, '191204');
+insert into Bookrack values(12, '191204');
+insert into Bookrack values(13, '191205');
+insert into Bookrack values(14, '191205');
+insert into Bookrack values(15, '191205');
+
+insert into Rackrent values('3117004881' ,1,3,'2019-12-28');
+
+insert into Book values('1', '数据库', '高等教育', 15, 'RB');
+insert into Repertory values('1', 1);
+insert into stubo values('3117004881', '1', 1);
+
+select book.bno,bname,price,repertory.num 
+from repertory,book 
+ where repertory.bno=book.bno and 
+            repertory.num > 0 and
+			jur like '_B' and 
+			Bname = '数据库';
+			
+insert into bought values('3117004881', '5' ,'1', '2019-12-30');
+
+
+
+
+
+
+
+

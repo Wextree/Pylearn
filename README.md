@@ -139,3 +139,32 @@ To record my developement in python
 
 
 
+## database
+
+### library
+
+> 源文件
+
+- 使用`pymysql`连接python 和数据库 ，构造`sql`语句，然后传递进去执行数据库操作，用游标返回元组
+
+```python
+# 打开数据库表并且获得游标数据以元组返回
+        conn = pymysql.connect(
+            host='127.0.0.1', user='root', passwd='110325', port=3306, db='library', charset='utf8')
+        cur = conn.cursor()
+        cur.execute(self.sql)
+        data = cur.fetchall()
+        # 事务确认
+        conn.commit()
+        cur.close()
+        conn.close()
+        return data
+```
+
+
+
+- 此系统分为三个大模块，第一个模块是登录注册，第二个是学生模块，第三个是老师模块，分别实现不同的功能
+
+### sql
+
+一个存放建表的`sql`操作，还有记录每个表的作用以及相应的属性
